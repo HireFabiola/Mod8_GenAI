@@ -37,7 +37,12 @@ h1 {
   justify-content: center;
   align-items: center;
   min-height: 320px;
+  width: min(520px, 100%);
+  max-width: 520px;
+  margin: 0 auto;
+  overflow: hidden;
 }
+
 
 .card-stack {
   position: absolute;
@@ -48,31 +53,49 @@ h1 {
 .card-stack span {
   position: absolute;
   left: 50%;
-  width: 92%;
-  height: 240px;
-  border-radius: 18px;
+  width: 100%;
+  max-width: 520px;
+  height: 260px;
+  border-radius: 20px;
   background: #fcfcfa;
   border: 1px solid rgba(125, 117, 98, 0.16);
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(-450px) rotate(var(--final-rotate, 0deg));
   box-shadow: 0 16px 38px rgba(31, 37, 64, 0.08);
+  opacity: 0;
+  animation: fallIn 0.85s cubic-bezier(0.22, 1.0, 0.36, 1.0) forwards;
 }
 
 .card-stack span:nth-child(1) {
-  top: 16px;
-  transform: translateX(-50%) rotate(-1.5deg);
-  opacity: 0.72;
+  top: 0;
+  --final-rotate: -1.5deg;
+  animation-delay: 0.08s;
 }
 
 .card-stack span:nth-child(2) {
-  top: 26px;
-  transform: translateX(-50%) rotate(1.2deg);
-  opacity: 0.56;
+  top: 8px;
+  --final-rotate: 1.2deg;
+  animation-delay: 0.16s;
 }
 
 .card-stack span:nth-child(3) {
-  top: 36px;
-  transform: translateX(-50%) rotate(-0.8deg);
-  opacity: 0.38;
+  top: 16px;
+  --final-rotate: -0.8deg;
+  animation-delay: 0.24s;
+}
+
+@keyframes fallIn {
+  0% {
+    transform: translateX(-50%) translateY(-450px) rotate(var(--final-rotate, 0deg));
+    opacity: 0;
+  }
+  70% {
+    transform: translateX(-50%) translateY(18px) rotate(var(--final-rotate, 0deg));
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(0) rotate(var(--final-rotate, 0deg));
+    opacity: 1;
+  }
 }
 
 .flashcard {
@@ -82,7 +105,18 @@ h1 {
   perspective: 1200px;
   cursor: pointer;
   z-index: 2;
+  opacity: 0;
+  transform: translateY(18px);
+  animation: cardFadeIn 0.5s ease-out 0.4s forwards;
 }
+
+@keyframes cardFadeIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 
 .card-inner {
   position: relative;
