@@ -8,12 +8,31 @@
 </head>
 <body>
   <main class="app-container">
-    <h1>Flashcards App</h1>
-    <section class="flashcard">
-      <div class="question">Question will appear here.</div>
-      <button id="show-answer">Show Answer</button>
-      <div class="answer hidden">Answer will appear here.</div>
-    </section>
+    <h1>HTML + JavaScript Study Deck</h1>
+    <p class="deck-note">Click the card to flip it. Front is the definition, back is the term.</p>
+    <div class="card-deck">
+      <div class="flashcard" id="flashcard" tabindex="0" role="button" aria-pressed="false">
+        <div class="card-inner">
+          <div class="card-face card-front">
+            <div class="card-label">Definition</div>
+            <div class="card-definition">Definition will appear here.</div>
+          </div>
+          <div class="card-face card-back">
+            <div class="card-back-body">
+              <div class="card-label">Term</div>
+              <div class="card-word">Term will appear here</div>
+            </div>
+            <div class="card-footnote">Click to flip for definition</div>
+          </div>
+        </div>
+      </div>
+      <div class="card-stack" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+
     <div class="controls">
       <button id="prev">Previous</button>
       <button id="next">Next</button>
