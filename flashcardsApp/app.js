@@ -85,6 +85,8 @@ let currentIndex = 0;
 const flashcardEl = document.getElementById("flashcard");
 const cardWordEl = document.querySelector(".card-word");
 const cardDefinitionEl = document.querySelector(".card-definition");
+const hintTextEl = document.querySelector(".hint-text");
+const showHintBtn = document.getElementById("show-hint");
 const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
 
@@ -92,6 +94,8 @@ function renderFlashcard() {
   const card = flashcards[currentIndex];
   cardDefinitionEl.textContent = card.definition;
   cardWordEl.textContent = card.term;
+  hintTextEl.textContent = `Hint: starts with '${card.term.charAt(0)}' and has ${card.term.length} ${card.term.length === 1 ? "character" : "characters"}.`;
+  hintTextEl.classList.add("hidden");
   flashcardEl.classList.remove("is-flipped");
   flashcardEl.setAttribute("aria-pressed", "false");
 }
@@ -103,6 +107,11 @@ function flipCard() {
 
 flashcardEl.addEventListener("click", () => {
   flipCard();
+});
+
+showHintBtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+  hintTextEl.classList.toggle("hidden");
 });
 
 flashcardEl.addEventListener("keydown", (event) => {

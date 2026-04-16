@@ -206,6 +206,37 @@ h1 {
   text-align: center;
 }
 
+.hint-toggle {
+  display: inline-block;
+  margin: 1rem auto 0;
+  padding: 0.1rem 0.4rem;
+  color: #4b5563;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: lowercase;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.hint-toggle:hover,
+.hint-toggle:focus-visible {
+  color: #1f2937;
+  outline: none;
+}
+
+.hint-text {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  color: #4f4f4f;
+  max-width: 85%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hidden {
+  display: none;
+}
+
 .card-front .card-definition {
   flex: 1;
   display: flex;
