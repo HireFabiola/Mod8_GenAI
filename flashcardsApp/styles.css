@@ -40,7 +40,7 @@ h1 {
   width: min(520px, 100%);
   max-width: 520px;
   margin: 0 auto;
-  overflow: hidden;
+  overflow: visible;
 }
 
 
@@ -50,6 +50,7 @@ h1 {
   pointer-events: none;
 }
 
+/* Background stack cards that appear behind the active card. */
 .card-stack span {
   position: absolute;
   left: 50%;
@@ -65,6 +66,7 @@ h1 {
   animation: fallIn 0.85s cubic-bezier(0.22, 1.0, 0.36, 1.0) forwards;
 }
 
+/* Stagger the background stack cards so they appear as a fanned pile. */
 .card-stack span:nth-child(1) {
   top: 0;
   --final-rotate: -1.5deg;
@@ -98,6 +100,7 @@ h1 {
   }
 }
 
+/* The visible flashcard wrapper. */
 .flashcard {
   width: min(520px, 100%);
   max-width: 520px;
@@ -108,6 +111,85 @@ h1 {
   opacity: 0;
   transform: translateY(18px);
   animation: cardFadeIn 0.5s ease-out 0.4s forwards;
+}
+
+/* The clone used for animation while the real flashcard stays hidden. */
+.animated-copy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  max-width: 520px;
+  pointer-events: none;
+}
+
+/* Preview card behind the active card. This is the next card in the queue. */
+.flashcard.next-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  transform: translateY(18px) scale(0.96);
+  opacity: 0.94;
+  pointer-events: none;
+}
+
+/* Applied to the active card when moving it to the back of the deck. */
+.flashcard.move-to-back {
+  transform-origin: bottom center;
+  animation: moveBack 0.78s ease-in-out forwards;
+  z-index: 3;
+}
+
+/* Applied to the active card when moving it to the front of the deck. */
+.flashcard.move-to-front {
+  transform-origin: bottom center;
+  animation: moveFront 0.78s ease-in-out forwards;
+  z-index: 3;
+}
+
+/* Animate the card lifting, rotating, and sliding to the back. */
+@keyframes moveBack {
+  0% {
+    transform: translateY(0) scale(1) rotateX(0deg) rotateZ(0deg);
+    opacity: 1;
+  }
+  20% {
+    transform: translateY(-18px) scale(1.03) rotateX(18deg) rotateZ(-4deg);
+    opacity: 1;
+  }
+  45% {
+    transform: translateY(-36px) translateX(18px) scale(1.02) rotateX(20deg) rotateZ(-10deg);
+    opacity: 0.98;
+  }
+  70% {
+    transform: translateY(-26px) translateX(30px) scale(0.98) rotateX(10deg) rotateZ(16deg);
+    opacity: 0.86;
+  }
+  100% {
+    transform: translateY(-12px) translateX(34px) scale(0.92) rotateX(0deg) rotateZ(22deg);
+    opacity: 0.68;
+  }
+}
+
+/* Animate the previous card moving forward and flipping back into the front position. */
+@keyframes moveFront {
+  0% {
+    transform: translateY(-12px) translateX(34px) scale(0.92) rotateX(0deg) rotateZ(22deg);
+    opacity: 0.68;
+  }
+  35% {
+    transform: translateY(-8px) translateX(22px) scale(0.98) rotateX(10deg) rotateZ(16deg);
+    opacity: 0.82;
+  }
+  70% {
+    transform: translateY(-24px) translateX(8px) scale(1.02) rotateX(18deg) rotateZ(-8deg);
+    opacity: 0.94;
+  }
+  100% {
+    transform: translateY(0) scale(1) rotateX(0deg) rotateZ(0deg);
+    opacity: 1;
+  }
 }
 
 @keyframes cardFadeIn {
