@@ -10,12 +10,24 @@
   <main class="app-container">
     <h1>HTML + JavaScript Study Deck</h1>
     <p class="deck-note">Choose one of the options below for your review mode</p>
+    <div class="game-menu" role="tablist" aria-label="Choose study mode">
+      <button type="button" class="game-mode active" data-mode="flashcards" aria-pressed="true">Flash Cards</button>
+      <button type="button" class="game-mode" data-mode="matching" aria-pressed="false">Matching</button>
+    </div>
+    <p class="game-mode-note">Current mode: Flash Cards</p>
     <div class="flashcard-filter">
       <label for="review-filter">Review:</label>
       <select id="review-filter" aria-label="Choose review content">
         <option value="all">HTML & JavaScript</option>
         <option value="html">HTML only</option>
         <option value="javascript">JavaScript only</option>
+      </select>
+    </div>
+    <div class="flip-start-control">
+      <label for="flip-start">Start with:</label>
+      <select id="flip-start" aria-label="Choose whether the deck starts with term or definition">
+        <option value="definition">Definition</option>
+        <option value="term">Term</option>
       </select>
     </div>
     <div class="card-deck">
@@ -36,6 +48,7 @@
       <div class="flashcard" id="flashcard" tabindex="0" role="button" aria-pressed="false">
         <div class="card-inner">
           <div class="card-face card-front">
+            <div class="blank-side-decor" aria-hidden="true"></div>
             <div class="card-label">Definition</div>
             <div class="card-definition">Definition will appear here.</div>
             <span class="hint-toggle" id="show-hint" role="button" tabindex="0">hint?</span>
@@ -56,6 +69,24 @@
         <span></span>
       </div>
     </div>
+
+    <section class="matching-mode hidden" aria-label="Matching game board">
+      <div class="match-header">
+        <p class="match-instructions">Match the term on the left with its scrambled definition on the right.</p>
+      </div>
+      <div class="matching-grid">
+        <div class="match-column">
+          <div class="match-title">Terms</div>
+          <div class="terms-list"></div>
+        </div>
+        <div class="match-column">
+          <div class="match-title">Definitions</div>
+          <div class="defs-list"></div>
+        </div>
+      </div>
+      <div class="match-message" aria-live="polite"></div>
+      <div class="completion-list"></div>
+    </section>
 
     <div class="controls">
       <button id="prev">Previous</button>

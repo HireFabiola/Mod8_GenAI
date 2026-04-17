@@ -31,6 +31,33 @@ h1 {
   line-height: 1.5;
 }
 
+.flashcard-filter,
+.flip-start-control {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.flashcard-filter label,
+.flip-start-control label {
+  font-size: 0.95rem;
+  color: #3d4b6e;
+  font-weight: 700;
+}
+
+.flashcard-filter select,
+.flip-start-control select {
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  padding: 0.75rem 1rem;
+  min-width: 180px;
+  background: #fff;
+  color: #1f2937;
+}
+
 .card-deck {
   position: relative;
   display: flex;
@@ -41,6 +68,19 @@ h1 {
   max-width: 520px;
   margin: 0 auto;
   overflow: visible;
+}
+
+.card-deck.reshuffle {
+  animation: reshuffle 0.45s ease;
+}
+
+@keyframes reshuffle {
+  0% { transform: translateX(0) rotate(0deg); }
+  25% { transform: translateX(-8px) rotate(-2deg); }
+  50% { transform: translateX(8px) rotate(2deg); }
+  75% { transform: translateX(-4px) rotate(-1deg); }
+  100% { transform: translateX(0) rotate(0deg); }
+
 }
 
 
@@ -226,6 +266,34 @@ h1 {
 }
 
 .card-front {
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.term-side {
+  background: #ffffff;
+  background-image: none;
+  justify-content: center;
+}
+
+.term-side::after {
+  display: none;
+}
+
+.term-side .card-definition {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0;
+}
+
+.term-side .card-label {
+  visibility: hidden;
+}
+
+.definition-side {
   background: #fbfaf6;
   border: 1px solid #d8d5c7;
   background-image:
@@ -241,6 +309,44 @@ h1 {
   align-items: center;
 }
 
+.definition-side::after {
+  content: "";
+  position: absolute;
+  left: 1.6rem;
+  right: 1.6rem;
+  top: 4.2rem;
+  height: 1px;
+  background: rgba(58, 83, 145, 0.25);
+}
+
+.definition-side .card-word,
+.definition-side .card-definition {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 0;
+  text-align: center;
+  font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+  line-height: 1.5;
+}
+
+.definition-side .card-label {
+  position: relative;
+}
+
+.definition-side .card-label::after {
+  content: "";
+  position: absolute;
+  left: -15rem;
+  right: -15rem;
+  bottom: -0.35rem;
+  height: 3px;
+  background: #ca2e2e;
+  border-radius: 999px;
+}
+
 .card-front::after {
   content: "";
   position: absolute;
@@ -249,6 +355,22 @@ h1 {
   top: 4.2rem;
   height: 1px;
   background: rgba(58, 83, 145, 0.25);
+}
+
+.card-back.definition-side {
+  background: #fbfaf6;
+  border: 1px solid #d8d5c7;
+  background-image:
+    linear-gradient(to bottom, transparent 46px, rgba(62, 68, 117, 0.06) 47px),
+    repeating-linear-gradient(
+      to bottom,
+      transparent,
+      transparent 46px,
+      rgba(58, 83, 145, 0.18) 47px,
+      rgba(58, 83, 145, 0.18) 48px
+    );
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .card-back {
@@ -351,6 +473,130 @@ h1 {
 
 .hidden {
   display: none;
+}
+
+.matching-mode {
+  margin-top: 2rem;
+}
+
+.match-header {
+  margin-bottom: 1rem;
+}
+
+.match-instructions {
+  margin: 0 auto;
+  max-width: 640px;
+  color: #475569;
+}
+
+.matching-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  align-items: start;
+}
+
+.match-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.match-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.terms-list,
+.defs-list {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.match-card {
+  width: 100%;
+  min-height: 96px;
+  padding: 0.9rem 1rem;
+  border-radius: 18px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #0f172a;
+  text-align: left;
+  font-size: 0.94rem;
+  line-height: 1.4;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.match-card:hover,
+.match-card:focus-visible {
+  transform: translateY(-1px);
+  border-color: #93c5fd;
+  box-shadow: 0 12px 22px rgba(147, 197, 253, 0.18);
+}
+
+.match-card.selected {
+  border-color: #93c5fd;
+  background: #e0f2fe;
+  color: #1e293b;
+}
+
+.match-card.matched {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.match-message {
+  margin-top: 1rem;
+  min-height: 1.5rem;
+  color: #334155;
+  font-size: 0.97rem;
+}
+
+.match-message.success {
+  color: #166534;
+}
+
+.match-message.error {
+  color: #b91c1c;
+}
+
+.completion-list {
+  margin-top: 1rem;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.completion-card {
+  padding: 0.85rem 1rem;
+  background: #eef2ff;
+  border-radius: 14px;
+  border: 1px solid #c7d2fe;
+  color: #1e293b;
+  font-size: 0.95rem;
+}
+
+.game-menu {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 1rem 0 0.5rem;
+}
+
+.game-mode {
+  background: #e2e8f0;
+  color: #1f2937;
+  border-radius: 999px;
+  padding: 0.75rem 1.1rem;
+  font-weight: 700;
+}
+
+.game-mode.active {
+  background: #3347a1;
+  color: #fff;
 }
 
 .card-front .card-definition {
