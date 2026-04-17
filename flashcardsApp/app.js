@@ -108,6 +108,7 @@ const controlsEl = document.querySelector(".controls");
 const cardDeckEl = document.querySelector(".card-deck");
 const prevBtn = document.getElementById("prev");
 const nextBtn = document.getElementById("next");
+const footerInstructionsEl = document.querySelector(".instructions");
 
 // Track the currently selected mode and active review category.
 let activeMode = "flashcards";
@@ -123,6 +124,17 @@ function updateGameModeText(mode) {
   gameModeNote.textContent = `Current mode: ${label}`;
 }
 
+function updateFooterInstructions(mode) {
+  if (!footerInstructionsEl) return;
+  if (mode === "flashcards") {
+    footerInstructionsEl.textContent =
+      "Tap the card to flip it and use the sidebar options to switch modes, filter content, or change the review order.";
+  } else {
+    footerInstructionsEl.textContent =
+      "Match each term with its definition using the board. Use the sidebar to switch modes or adjust which cards are reviewed.";
+  }
+}
+
 // Set the active mode button, hide/show sections, and initialize content.
 function setActiveMode(mode) {
   activeMode = mode;
@@ -134,6 +146,7 @@ function setActiveMode(mode) {
   });
 
   updateGameModeText(mode);
+  updateFooterInstructions(mode);
   updateModeVisibility();
 
   if (mode === "flashcards") {
@@ -233,11 +246,13 @@ function updateReviewFlashcards() {
     "<section>",
   ];
 
-  reviewFlashcards = flashcards.filter((card) => {
-    if (activeReviewCategory === "all") return true;
-    if (activeReviewCategory === "html") return htmlTerms.includes(card.term);
-    return !htmlTerms.includes(card.term);
-  });
+  reviewFlashcards = shuffleArray(
+    flashcards.filter((card) => {
+      if (activeReviewCategory === "all") return true;
+      if (activeReviewCategory === "html") return htmlTerms.includes(card.term);
+      return !htmlTerms.includes(card.term);
+    })
+  );
 
   // Reset the visible queue position after applying a filter.
   currentIndex = 0;
@@ -549,5 +564,6 @@ nextBtn.addEventListener("click", () => {
   });
 });
 
-// Initial render of the first card.
+// Build and render the initial randomized deck.
+updateReviewFlashcards();
 renderFlashcard();

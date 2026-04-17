@@ -10,12 +10,49 @@ body {
 }
 
 .app-container {
-  width: min(700px, 95%);
+  width: min(900px, 95%);
   background: rgba(255, 255, 255, 0.94);
   border-radius: 24px;
   padding: 2rem 2rem 2.5rem;
   box-shadow: 0 24px 60px rgba(35, 50, 87, 0.16);
+  text-align: left;
+}
+
+.app-header {
   text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.app-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 280px) minmax(0, 1fr);
+  gap: 1.75rem;
+  align-items: start;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.app-footer {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(100, 116, 139, 0.15);
+}
+
+.instructions {
+  margin: 0;
+  color: #475569;
+  line-height: 1.7;
 }
 
 h1 {
@@ -25,16 +62,16 @@ h1 {
 }
 
 .deck-note {
-  margin: 0.75rem auto 1.5rem;
+  margin: 0;
   color: #4f5c7c;
-  max-width: 540px;
+  max-width: 100%;
   line-height: 1.5;
 }
 
 .flashcard-filter,
 .flip-start-control {
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   gap: 0.7rem;
   flex-wrap: wrap;
@@ -645,6 +682,21 @@ button:focus-visible {
 button:focus-visible {
   outline: 3px solid rgba(77, 109, 255, 0.35);
   outline-offset: 4px;
+}
+
+@media (max-width: 860px) {
+  .app-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar,
+  .main-content {
+    width: 100%;
+  }
+
+  .main-content {
+    align-items: stretch;
+  }
 }
 
 @media (max-width: 520px) {

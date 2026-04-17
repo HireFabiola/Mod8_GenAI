@@ -8,90 +8,104 @@
 </head>
 <body>
   <main class="app-container">
-    <h1>HTML + JavaScript Study Deck</h1>
-    <p class="deck-note">Choose one of the options below for your review mode</p>
-    <div class="game-menu" role="tablist" aria-label="Choose study mode">
-      <button type="button" class="game-mode active" data-mode="flashcards" aria-pressed="true">Flash Cards</button>
-      <button type="button" class="game-mode" data-mode="matching" aria-pressed="false">Matching</button>
-    </div>
-    <p class="game-mode-note">Current mode: Flash Cards</p>
-    <div class="flashcard-filter">
-      <label for="review-filter">Review:</label>
-      <select id="review-filter" aria-label="Choose review content">
-        <option value="all">HTML & JavaScript</option>
-        <option value="html">HTML only</option>
-        <option value="javascript">JavaScript only</option>
-      </select>
-    </div>
-    <div class="flip-start-control">
-      <label for="flip-start">Start with:</label>
-      <select id="flip-start" aria-label="Choose whether the deck starts with term or definition">
-        <option value="definition">Definition</option>
-        <option value="term">Term</option>
-      </select>
-    </div>
-    <div class="card-deck">
-      <div class="flashcard next-card" id="preview-card" aria-hidden="true">
-        <div class="card-inner">
-          <div class="card-face card-front">
-            <div class="card-label">Definition</div>
-            <div class="card-definition">Definition will appear here.</div>
-          </div>
-          <div class="card-face card-back">
-            <div class="card-back-body">
-              <div class="card-label">Term</div>
-              <div class="card-word">Term will appear here</div>
+    <header class="app-header">
+      <h1>HTML + JavaScript Study Deck</h1>
+    </header>
+
+    <div class="app-layout">
+      <aside class="sidebar" aria-label="Study options">
+        <p class="deck-note">Choose one of the options below for your review mode.</p>
+        <div class="game-menu" role="tablist" aria-label="Choose study mode">
+          <button type="button" class="game-mode active" data-mode="flashcards" aria-pressed="true">Flash Cards</button>
+          <button type="button" class="game-mode" data-mode="matching" aria-pressed="false">Matching</button>
+        </div>
+        <p class="game-mode-note">Current mode: Flash Cards</p>
+        <div class="flashcard-filter">
+          <label for="review-filter">Review:</label>
+          <select id="review-filter" aria-label="Choose review content">
+            <option value="all">HTML & JavaScript</option>
+            <option value="html">HTML only</option>
+            <option value="javascript">JavaScript only</option>
+          </select>
+        </div>
+        <div class="flip-start-control">
+          <label for="flip-start">Start with:</label>
+          <select id="flip-start" aria-label="Choose whether the deck starts with term or definition">
+            <option value="definition">Definition</option>
+            <option value="term">Term</option>
+          </select>
+        </div>
+      </aside>
+
+      <section class="main-content">
+        <div class="card-deck">
+          <div class="flashcard next-card" id="preview-card" aria-hidden="true">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="card-label">Definition</div>
+                <div class="card-definition">Definition will appear here.</div>
+              </div>
+              <div class="card-face card-back">
+                <div class="card-back-body">
+                  <div class="card-label">Term</div>
+                  <div class="card-word">Term will appear here</div>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="flashcard" id="flashcard" tabindex="0" role="button" aria-pressed="false">
-        <div class="card-inner">
-          <div class="card-face card-front">
-            <div class="blank-side-decor" aria-hidden="true"></div>
-            <div class="card-label">Definition</div>
-            <div class="card-definition">Definition will appear here.</div>
-            <span class="hint-toggle" id="show-hint" role="button" tabindex="0">hint?</span>
-            <div class="hint-text hidden">Hint will appear here.</div>
-          </div>
-          <div class="card-face card-back">
-            <div class="card-back-body">
-              <div class="card-label">Term</div>
-              <div class="card-word">Term will appear here</div>
+          <div class="flashcard" id="flashcard" tabindex="0" role="button" aria-pressed="false">
+            <div class="card-inner">
+              <div class="card-face card-front">
+                <div class="blank-side-decor" aria-hidden="true"></div>
+                <div class="card-label">Definition</div>
+                <div class="card-definition">Definition will appear here.</div>
+                <span class="hint-toggle" id="show-hint" role="button" tabindex="0">hint?</span>
+                <div class="hint-text hidden">Hint will appear here.</div>
+              </div>
+              <div class="card-face card-back">
+                <div class="card-back-body">
+                  <div class="card-label">Term</div>
+                  <div class="card-word">Term will appear here</div>
+                </div>
+                <div class="card-footnote">Click to flip for definition</div>
+              </div>
             </div>
-            <div class="card-footnote">Click to flip for definition</div>
+          </div>
+          <div class="card-stack" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
         </div>
-      </div>
-      <div class="card-stack" aria-hidden="true">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
+
+        <section class="matching-mode hidden" aria-label="Matching game board">
+          <div class="match-header">
+            <p class="match-instructions">Match the term on the left with its scrambled definition on the right.</p>
+          </div>
+          <div class="matching-grid">
+            <div class="match-column">
+              <div class="match-title">Terms</div>
+              <div class="terms-list"></div>
+            </div>
+            <div class="match-column">
+              <div class="match-title">Definitions</div>
+              <div class="defs-list"></div>
+            </div>
+          </div>
+          <div class="match-message" aria-live="polite"></div>
+          <div class="completion-list"></div>
+        </section>
+
+        <div class="controls">
+          <button id="prev">Previous</button>
+          <button id="next">Next</button>
+        </div>
+      </section>
     </div>
 
-    <section class="matching-mode hidden" aria-label="Matching game board">
-      <div class="match-header">
-        <p class="match-instructions">Match the term on the left with its scrambled definition on the right.</p>
-      </div>
-      <div class="matching-grid">
-        <div class="match-column">
-          <div class="match-title">Terms</div>
-          <div class="terms-list"></div>
-        </div>
-        <div class="match-column">
-          <div class="match-title">Definitions</div>
-          <div class="defs-list"></div>
-        </div>
-      </div>
-      <div class="match-message" aria-live="polite"></div>
-      <div class="completion-list"></div>
-    </section>
-
-    <div class="controls">
-      <button id="prev">Previous</button>
-      <button id="next">Next</button>
-    </div>
+    <footer class="app-footer">
+      <p class="instructions">Tap the card to flip it and use the sidebar options to switch modes, filter content, or change the review order.</p>
+    </footer>
   </main>
   <script src="app.js"></script>
 </body>
