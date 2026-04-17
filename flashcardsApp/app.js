@@ -107,6 +107,7 @@ const flipStartSelect = document.getElementById("flip-start");
 const controlsEl = document.querySelector(".controls");
 const cardDeckEl = document.querySelector(".card-deck");
 const prevBtn = document.getElementById("prev");
+const shuffleBtn = document.getElementById("shuffle");
 const nextBtn = document.getElementById("next");
 const footerInstructionsEl = document.querySelector(".instructions");
 
@@ -228,7 +229,12 @@ function getMatchingCardIds() {
 
 // Utility to shuffle an array without mutating the original.
 function shuffleArray(array) {
-  return array.slice().sort(() => Math.random() - 0.5);
+  const copy = array.slice();
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [copy[i], copy[j]] = [copy[j], copy[i]];
+  }
+  return copy;
 }
 
 // Apply the selected review filter to the flashcard deck.
@@ -300,7 +306,7 @@ function renderFlashcard() {
     cardDefinitionEl.textContent = card.term;
     cardWordEl.textContent = card.definition;
     footnote.textContent = "";
-    showHintBtn.classList.remove("hidden");
+    showHintBtn.classList.add("hidden");
     hintTextEl.classList.add("hidden");
   } else {
     frontLabel.textContent = "Definition";
@@ -512,7 +518,15 @@ function animateCardTransition(animationClass, onComplete) {
   cardDeckEl.appendChild(clone);
 
   const onAnimationEnd = (event) => {
-    if (event.animationName !== (animationClass === "move-to-back" ? "moveBack" : "moveFront")) return;
+    const expectedAnimation = animationClass === "move-to-back"
+      ? "moveBack"
+      : animationClass === "move-to-front"
+      ? "moveFront"
+      : animationClass === "shuffle"
+      ? "shuffleCard"
+      : "";
+
+    if (event.animationName !== expectedAnimation) return;
     clone.removeEventListener("animationend", onAnimationEnd);
     cardDeckEl.removeChild(clone);
     flashcardEl.style.visibility = "visible";
@@ -560,6 +574,27 @@ nextBtn.addEventListener("click", () => {
     const firstCard = reviewFlashcards.shift();
     reviewFlashcards.push(firstCard);
     renderFlashcard();
+    isTransitioning = false;
+  });
+});
+
+shuffleBtn?.addEventListener("click", () => {
+  if (isTransitioning) return;
+  if (reviewFlashcards.length < 2) return;
+  isTransitioning = true;
+
+  flashcardEl.classList.remove("is-flipped");
+  flashcardEl.setAttribute("aria-pressed", "false");
+  hintTextEl.classList.add("hidden");
+
+  cardDeckEl.classList.remove("reshuffle");
+  void cardDeckEl.offsetWidth;
+  cardDeckEl.classList.add("reshuffle");
+
+  animateCardTransition("shuffle", () => {
+    reviewFlashcards = shuffleArray(reviewFlashcards);
+    renderFlashcard();
+    renderPreviewCard(1);
     isTransitioning = false;
   });
 });
