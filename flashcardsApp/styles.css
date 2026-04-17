@@ -672,6 +672,11 @@ button:focus-visible {
   transform: translateY(-1px);
 }
 
+.flashcard:focus-visible,
+.flashcard:focus {
+  outline: none;
+}
+
 .controls {
   display: flex;
   justify-content: center;

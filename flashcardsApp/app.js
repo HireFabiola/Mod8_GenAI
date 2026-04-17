@@ -491,12 +491,29 @@ cardDeckEl.addEventListener("animationend", (event) => {
 });
 
 // Support keyboard flipping of the card.
-flashcardEl.addEventListener("keydown", (event) => {
-  if (event.key === "Enter" || event.key === " ") {
+const isFlipKey = (event) =>
+  event.key === "Enter" ||
+  event.key === " " ||
+  event.key === "Spacebar" ||
+  event.code === "Space";
+
+document.addEventListener(
+  "keydown",
+  (event) => {
+    if (!isFlipKey(event) || activeMode !== "flashcards") return;
+    const target = event.target;
+    const ignoreTags = ["INPUT", "TEXTAREA", "SELECT"];
+    if (ignoreTags.includes(target.tagName) || target.isContentEditable) return;
+
     event.preventDefault();
+    event.stopImmediatePropagation();
+    if (document.activeElement !== flashcardEl) {
+      flashcardEl.focus();
+    }
     flipCard();
-  }
-});
+  },
+  true
+);
 
 // Prevent interactions during the move animation.
 let isTransitioning = false;
