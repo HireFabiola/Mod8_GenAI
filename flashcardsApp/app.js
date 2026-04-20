@@ -497,20 +497,45 @@ const isFlipKey = (event) =>
   event.key === "Spacebar" ||
   event.code === "Space";
 
+const isNavKey = (event) =>
+  event.key === "ArrowLeft" || event.key === "ArrowRight";
+const isShuffleKey = (event) =>
+  event.key === "ArrowUp" || event.key === "ArrowDown";
+
 document.addEventListener(
   "keydown",
   (event) => {
-    if (!isFlipKey(event) || activeMode !== "flashcards") return;
+    if (activeMode !== "flashcards") return;
     const target = event.target;
     const ignoreTags = ["INPUT", "TEXTAREA", "SELECT"];
     if (ignoreTags.includes(target.tagName) || target.isContentEditable) return;
 
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    if (document.activeElement !== flashcardEl) {
-      flashcardEl.focus();
+    if (isFlipKey(event)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      if (document.activeElement !== flashcardEl) {
+        flashcardEl.focus();
+      }
+      flipCard();
+      return;
     }
-    flipCard();
+
+    if (isNavKey(event)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      if (event.key === "ArrowLeft") {
+        prevBtn.click();
+      } else {
+        nextBtn.click();
+      }
+      return;
+    }
+
+    if (isShuffleKey(event)) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      shuffleBtn?.click();
+    }
   },
   true
 );
